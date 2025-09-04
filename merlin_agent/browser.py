@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Optional, Dict
 import re
 from loguru import logger
+import time
+import re
 from playwright.sync_api import (
     sync_playwright, Page, Browser, BrowserContext, TimeoutError as PWTimeoutError
 )
@@ -86,19 +88,6 @@ class MerlinBrowser:
             # fallback: entire blockquote text
             return container.inner_text(timeout=3000)
 
-    def get_level(self) -> Optional[int]:
-        """
-        Extracts 'Level N' from the heading (h1.mantine-Title-root).
-        """
-        try:
-            heading = self.page.locator(self.selectors["level_heading"]).first.inner_text(timeout=2000)
-            m = re.search(r"Level\s+(\d+)", heading, flags=re.I)
-            if m:
-                return int(m.group(1))
-        except Exception:
-            pass
-        return None
-
     def screenshot(self, path: Path):
         self.page.screenshot(path=path, full_page=True)
 
@@ -122,73 +111,128 @@ class MerlinBrowser:
             print(f"[WARN] could not submit password: {e}")
             return False
 
+    def get_level(self) -> Optional[int]:
+        """
+        Robustly read the current 'Level N' from the page.
+        We scan multiple heading candidates and return the first that matches /Level \d+/.
+        """
+        import re
+        candidates = [
+            "h1", "h2", "h3",
+            "h1.mantine-Title-root",
+            "[class*='Title-root']",
+            "h1:has-text('Level')",
+            "[role='heading']"
+        ]
+        # Try focused, specific candidates first
+        tried = set()
+        for sel in candidates:
+            if sel in tried:
+                continue
+            tried.add(sel)
+            try:
+                loc = self.page.locator(sel)
+                count = loc.count()
+                # iterate all visible matches, newest first (UI may render multiple)
+                for i in range(count - 1, -1, -1):
+                    try:
+                        txt = loc.nth(i).inner_text(timeout=500).strip()
+                    except Exception:
+                        continue
+                    m = re.search(r"\bLevel\s+(\d+)\b", txt, flags=re.I)
+                    if m:
+                        return int(m.group(1))
+            except Exception:
+                continue
+
+        # Last resort: read all text and search once (slower but safe)
+        try:
+            body_txt = self.page.locator("body").inner_text(timeout=800)
+            m = re.search(r"\bLevel\s+(\d+)\b", body_txt, flags=re.I)
+            if m:
+                return int(m.group(1))
+        except Exception:
+            pass
+        return None
+
+
+    def wait_for_level_increment(self, prev_level: int, timeout_ms: int = 6000) -> Optional[int]:
+        """
+        Poll the heading until it increases beyond prev_level.
+        """
+        deadline = time.time() + timeout_ms / 1000.0
+        while time.time() < deadline:
+            lv = self.get_level()
+            if isinstance(lv, int) and lv > prev_level:
+                return lv
+            self.page.wait_for_timeout(150)
+        return None
+
     def handle_modal(self) -> str | None:
         """
-        If a Mantine modal appears, grab its body text (hint) and press Continue.
-        Returns the modal text if found.
+        If a Mantine modal appears, scrape its body text (hint) and click Continue/X.
+        Returns hint text if a modal was seen; None otherwise.
+        (This does NOT imply success—success is only heading increment.)
         """
         sel = self.selectors
         try:
             modal = self.page.locator(sel["modal_root"]).first
-            # Wait briefly for modal to show up after submit
-            modal.wait_for(state="visible", timeout=4000)
+            modal.wait_for(state="visible", timeout=1500)
         except Exception:
             return None
 
-        # Read hint text
         hint_text = ""
         try:
             body = self.page.locator(sel["modal_body"]).first
-            hint_text = body.inner_text(timeout=1500)
+            hint_text = body.inner_text(timeout=800)
         except Exception:
             try:
-                hint_text = modal.inner_text(timeout=1500)
+                hint_text = modal.inner_text(timeout=800)
             except Exception:
                 pass
 
-        # Try role-based click first (most robust with portals/overlays)
+        # try Continue → Enter → Close(X)
         clicked = False
-        try:
-            self.page.get_by_role("button", name="Continue").click(timeout=1500)
-            clicked = True
-        except Exception:
-            # CSS fallback
+        for click_try in (
+            lambda: self.page.get_by_role("button", name="Continue").click(timeout=800),
+            lambda: self.page.locator(sel["modal_continue"]).first.click(timeout=800),
+            lambda: (modal.focus(), self.page.keyboard.press("Enter")),
+            lambda: self.page.locator(sel["modal_close"]).first.click(timeout=800),
+        ):
             try:
-                self.page.locator(sel["modal_continue"]).first.click(timeout=1500)
+                click_try()
                 clicked = True
+                break
             except Exception:
-                # Fallback: press Enter while dialog focused
-                try:
-                    modal.focus()
-                    self.page.keyboard.press("Enter")
-                    clicked = True
-                except Exception:
-                    # Last resort: close button (X)
-                    try:
-                        self.page.locator(sel["modal_close"]).first.click(timeout=1500)
-                        clicked = True
-                    except Exception:
-                        pass
+                continue
 
-        # Ensure it actually went away
+        # ensure it disappears
         try:
-            self.page.locator(sel["modal_root"]).first.wait_for(state="hidden", timeout=3000)
+            self.page.locator(sel["modal_root"]).first.wait_for(state="hidden", timeout=1500)
         except Exception:
-            # If still visible, try one more force-click on Continue (overlay can intercept)
-            try:
-                self.page.get_by_role("button", name="Continue").click(timeout=1000, force=True)
-                self.page.locator(sel["modal_root"]).first.wait_for(state="hidden", timeout=2000)
-                clicked = True
-            except Exception:
-                pass
+            pass
 
         if hint_text:
             print(f"[Modal Hint]\n{hint_text}\n")
         if clicked:
-            print("[+] Modal dismissed (Continue).")
-            
-        self.page.wait_for_timeout(250)
+            print("[+] Modal closed.")
         return hint_text or None
+
+    def verify_submission_by_heading(self, prev_level: int, timeout_ms: int = 7000) -> tuple[bool, Optional[int], Optional[str]]:
+        """
+        Strict success criterion:
+        1) (optional) a modal may appear; we close it and capture its text
+        2) SUCCESS ONLY IF the level heading increases beyond prev_level
+
+        Returns: (is_success, new_level_or_None, modal_hint_or_None)
+        """
+        hint = self.handle_modal()  # may be None if no modal appears
+        # give the UI a tick to re-render the heading
+        self.page.wait_for_timeout(400)
+        new_level = self.wait_for_level_increment(prev_level, timeout_ms)
+        if new_level and new_level > prev_level:
+            return True, new_level, hint
+        return False, None, hint
 
 
 

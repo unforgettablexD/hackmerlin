@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os, json, re
 import requests
-from typing import Dict, Any
+from typing import Dict, Any, Optional, Tuple
 
 def _coerce_json(text: str) -> Dict[str, Any]:
     try:
