@@ -1,0 +1,8 @@
+# Python junk
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.hackmerlin_venv/
