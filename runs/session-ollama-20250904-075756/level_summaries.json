@@ -1,0 +1,14 @@
+{
+  "1": {
+    "tried": 1,
+    "successes": 1,
+    "last_k_patterns": [
+      "Solved via Ollama-proposed prompt"
+    ],
+    "do_not_try": [
+      "long explanations",
+      "refuse"
+    ],
+    "suggested_next": null
+  }
+}

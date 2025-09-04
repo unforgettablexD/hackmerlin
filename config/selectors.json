@@ -1,0 +1,16 @@
+{
+  "chat_input": "textarea.mantine-Textarea-input, textarea",
+  "send_button": "button:has-text('Ask'), button.mantine-Button-root:has-text('Ask')",
+  "messages_container": "blockquote.mantine-Blockquote-root",
+  "assistant_message": "blockquote.mantine-Blockquote-root p.mantine-Text-root",
+  "user_message": ".message.user, .user",
+  "start_button": "button:has-text('Start'), button:has-text('Play'), button:has-text('Begin')",
+  "level_heading": "h1.mantine-Title-root",
+  "password_input": "input.mantine-TextInput-input[placeholder='SECRET PASSWORD'], input[placeholder='SECRET PASSWORD']",
+  "submit_button": "button:has-text('Submit'), button.mantine-Button-root:has-text('Submit')",
+
+  "modal_root": "section[role='dialog']",
+  "modal_body": "section[role='dialog'] .mantine-Modal-body, section[role='dialog'] [id$='-body']",
+  "modal_continue": "section[role='dialog'] button:has-text('Continue')",
+  "modal_close": "section[role='dialog'] button.mantine-Modal-close"
+}
