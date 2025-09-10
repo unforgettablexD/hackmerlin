@@ -55,7 +55,7 @@ def run_session_llm(headless: bool = True, debug: bool = False) -> Path:
 
         level = br.get_level() or 1
         global_attempts = 0
-        MAX_GLOBAL_ATTEMPTS = 60
+        MAX_GLOBAL_ATTEMPTS = 6000
 
         while global_attempts < MAX_GLOBAL_ATTEMPTS:
             logger.info(f"=== OLLAMA MODE: Level {level} ===")
@@ -118,11 +118,11 @@ def run_session_llm(headless: bool = True, debug: bool = False) -> Path:
                     if submitted:
                         ok, new_level, modal_hint = False, None, None
                         try:
-                            ok, new_level, modal_hint = br.verify_submission_by_heading(prev_level, timeout_ms=10000)
+                            ok, new_level, modal_hint = br.verify_submission_by_heading(prev_level, timeout_ms=1000)
                         except Exception:
                             modal_hint = br.handle_modal()
                             _safe_wait(500, br)
-                            new_level = _wait_for_level_increment(br, prev_level, timeout_ms=10000)
+                            new_level = _wait_for_level_increment(br, prev_level, timeout_ms=1000)
                             ok = bool(isinstance(new_level, int) and new_level > prev_level)
 
                         store.append_attempt({
@@ -160,11 +160,11 @@ def run_session_llm(headless: bool = True, debug: bool = False) -> Path:
                     if submitted:
                         ok, new_level, modal_hint = False, None, None
                         try:
-                            ok, new_level, modal_hint = br.verify_submission_by_heading(prev_level, timeout_ms=10000)
+                            ok, new_level, modal_hint = br.verify_submission_by_heading(prev_level, timeout_ms=1000)
                         except Exception:
                             modal_hint = br.handle_modal()
                             _safe_wait(500, br)
-                            new_level = _wait_for_level_increment(br, prev_level, timeout_ms=10000)
+                            new_level = _wait_for_level_increment(br, prev_level, timeout_ms=1000)
                             ok = bool(isinstance(new_level, int) and new_level > prev_level)
 
                         store.append_attempt({

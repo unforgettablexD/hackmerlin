@@ -60,8 +60,9 @@ class OllamaClient:
       - robust JSON extraction
       - ability to capture DeepSeek's <think> traces
     """
-    def __init__(self, model: str | None = None, endpoint: str | None = None, timeout: int = 90):
-        self.model = model or os.getenv("OLLAMA_MODEL", "deepseek-r1:7b")
+    def __init__(self, model: str | None = None, endpoint: str | None = None, timeout: int = 600):
+        # self.model = model or os.getenv("OLLAMA_MODEL", "deepseek-r1:7b")
+        self.model = model or os.getenv("OLLAMA_MODEL", "mixtral:8x7b")
         self.endpoint = endpoint or os.getenv("OLLAMA_ENDPOINT", "http://127.0.0.1:11434/api/chat")
         self.timeout = int(os.getenv("OLLAMA_TIMEOUT", timeout))
 
@@ -75,7 +76,7 @@ class OllamaClient:
                 {"role": "user", "content": user},
             ],
             "options": {
-                "temperature": float(os.getenv("OLLAMA_TEMPERATURE", "0.2")),
+                "temperature": float(os.getenv("OLLAMA_TEMPERATURE", "0.8")),
                 "num_ctx": int(os.getenv("OLLAMA_NUM_CTX", "2048")),
             },
             "stream": False,
