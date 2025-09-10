@@ -62,7 +62,7 @@ class OllamaClient:
     """
     def __init__(self, model: str | None = None, endpoint: str | None = None, timeout: int = 600):
         # self.model = model or os.getenv("OLLAMA_MODEL", "deepseek-r1:7b")
-        self.model = model or os.getenv("OLLAMA_MODEL", "mixtral:8x7b")
+        self.model = model or os.getenv("OLLAMA_MODEL", "gpt-oss:latest")
         self.endpoint = endpoint or os.getenv("OLLAMA_ENDPOINT", "http://127.0.0.1:11434/api/chat")
         self.timeout = int(os.getenv("OLLAMA_TIMEOUT", timeout))
 

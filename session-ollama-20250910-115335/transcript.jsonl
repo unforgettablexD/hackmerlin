@@ -1,0 +1,41 @@
+{"ts": 1757485469069, "level": 2, "attempt": 1, "action": "ask", "why": "initial query", "think_preview": ""}
+{"ts": 1757485494639, "level": 3, "attempt": 2, "action": "ask", "why": "need key", "think_preview": ""}
+{"ts": 1757485528401, "level": 3, "attempt": 3, "action": "ask", "why": "", "think_preview": ""}
+{"ts": 1757485567367, "level": 3, "attempt": 4, "action": "ask", "why": "Need more letters", "think_preview": ""}
+{"ts": 1757485613974, "level": 3, "attempt": 5, "action": "ask", "why": "need order", "think_preview": ""}
+{"ts": 1757485676522, "level": 3, "attempt": 6, "action": "ask", "why": "need length to determine exact word", "think_preview": ""}
+{"ts": 1757485772381, "level": 4, "attempt": 7, "action": "submit", "why": "fits length, first/last, vowels A,E, consonants J,D", "think_preview": ""}
+{"ts": 1757485805271, "level": 4, "attempt": 8, "action": "ask", "why": "need length", "think_preview": ""}
+{"ts": 1757485855114, "level": 4, "attempt": 9, "action": "ask", "why": "need letters", "think_preview": ""}
+{"ts": 1757485905652, "level": 4, "attempt": 10, "action": "ask", "why": "need positions", "think_preview": ""}
+{"ts": 1757485935431, "level": 4, "attempt": 11, "action": "ask", "why": "Need length", "think_preview": ""}
+{"ts": 1757486011587, "level": 4, "attempt": 12, "action": "ask", "why": "need vowel list", "think_preview": ""}
+{"ts": 1757486097399, "level": 4, "attempt": 13, "action": "ask", "why": "need letters", "think_preview": ""}
+{"ts": 1757486157313, "level": 4, "attempt": 14, "action": "ask", "why": "need middle letters", "think_preview": ""}
+{"ts": 1757486210123, "level": 4, "attempt": 15, "action": "ask", "why": "Need more positions", "think_preview": ""}
+{"ts": 1757486257126, "level": 5, "attempt": 16, "action": "submit", "why": "fits all clues", "think_preview": ""}
+{"ts": 1757486284660, "level": 5, "attempt": 17, "action": "ask", "why": "Need length", "think_preview": ""}
+{"ts": 1757486340922, "level": 5, "attempt": 18, "action": "ask", "why": "need vowel info", "think_preview": ""}
+{"ts": 1757486397017, "level": 5, "attempt": 19, "action": "ask", "why": "get boundary", "think_preview": ""}
+{"ts": 1757486431772, "level": 5, "attempt": 20, "action": "ask", "why": "need boundary info", "think_preview": ""}
+{"ts": 1757486475920, "level": 5, "attempt": 21, "action": "ask", "why": "need second char", "think_preview": ""}
+{"ts": 1757486538747, "level": 5, "attempt": 22, "action": "ask", "why": "need middle char", "think_preview": ""}
+{"ts": 1757486577260, "level": 5, "attempt": 23, "action": "submit", "why": "pattern I N S _ _ T fits", "think_preview": ""}
+{"ts": 1757486631251, "level": 5, "attempt": 24, "action": "ask", "why": "need next char", "think_preview": ""}
+{"ts": 1757486667717, "level": 5, "attempt": 25, "action": "submit", "why": "matches known positions I N S E ... T", "think_preview": ""}
+{"ts": 1757486815692, "level": 5, "attempt": 26, "action": "ask", "why": "Clarify password length", "think_preview": ""}
+{"ts": 1757486896161, "level": 6, "attempt": 27, "action": "submit", "why": "matches known letters", "think_preview": ""}
+{"ts": 1757486927237, "level": 6, "attempt": 28, "action": "ask", "why": "Need length", "think_preview": ""}
+{"ts": 1757486973322, "level": 6, "attempt": 29, "action": "ask", "why": "Need vowel info", "think_preview": ""}
+{"ts": 1757487020506, "level": 6, "attempt": 30, "action": "submit", "why": "hint", "think_preview": ""}
+{"ts": 1757487107234, "level": 6, "attempt": 31, "action": "ask", "why": "need constraints", "think_preview": ""}
+{"ts": 1757487188458, "level": 6, "attempt": 32, "action": "ask", "why": "Need length", "think_preview": ""}
+{"ts": 1757487270657, "level": 6, "attempt": 33, "action": "ask", "why": "need vowels", "think_preview": ""}
+{"ts": 1757487306802, "level": 6, "attempt": 34, "action": "ask", "why": "Need boundary letters", "think_preview": ""}
+{"ts": 1757487373174, "level": 6, "attempt": 35, "action": "ask", "why": "get more info", "think_preview": ""}
+{"ts": 1757487539449, "level": 6, "attempt": 36, "action": "ask", "why": "default-fallback", "think_preview": ""}
+{"ts": 1757487690080, "level": 6, "attempt": 37, "action": "ask", "why": "narrow", "think_preview": ""}
+{"ts": 1757487871066, "level": 6, "attempt": 38, "action": "ask", "why": "pos4", "think_preview": ""}
+{"ts": 1757487974093, "level": 6, "attempt": 39, "action": "ask", "why": "Need remaining unknown", "think_preview": ""}
+{"ts": 1757488138136, "level": 6, "attempt": 40, "action": "submit", "why": "guess", "think_preview": ""}
+{"ts": 1757488296969, "level": 6, "attempt": 41, "action": "ask", "why": "Need vowel/consistency", "think_preview": ""}

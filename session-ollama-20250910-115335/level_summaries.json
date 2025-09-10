@@ -1,0 +1,79 @@
+{
+  "1": {
+    "tried": 1,
+    "successes": 1,
+    "last_k_patterns": [
+      "✅ SUBMIT CORRECT: SAFFRON"
+    ],
+    "do_not_try": [],
+    "suggested_next": null
+  },
+  "2": {
+    "tried": 1,
+    "successes": 1,
+    "last_k_patterns": [
+      "✅ SUBMIT CORRECT: EAGLE"
+    ],
+    "do_not_try": [],
+    "suggested_next": null
+  },
+  "3": {
+    "tried": 2,
+    "successes": 1,
+    "last_k_patterns": [
+      "❌ WRONG SUBMIT: four",
+      "✅ SUBMIT CORRECT: jade"
+    ],
+    "do_not_try": [
+      "four"
+    ],
+    "suggested_next": null
+  },
+  "4": {
+    "tried": 3,
+    "successes": 1,
+    "last_k_patterns": [
+      "❌ WRONG SUBMIT: not",
+      "❌ WRONG SUBMIT: six",
+      "✅ SUBMIT CORRECT: saddle"
+    ],
+    "do_not_try": [
+      "six",
+      "not"
+    ],
+    "suggested_next": null
+  },
+  "5": {
+    "tried": 6,
+    "successes": 1,
+    "last_k_patterns": [
+      "❌ WRONG SUBMIT: I",
+      "❌ WRONG SUBMIT: S",
+      "❌ WRONG SUBMIT: INSULT",
+      "❌ WRONG SUBMIT: E",
+      "❌ WRONG SUBMIT: INSET",
+      "✅ SUBMIT CORRECT: INSECT"
+    ],
+    "do_not_try": [
+      "S",
+      "INSULT",
+      "INSET",
+      "I",
+      "E"
+    ],
+    "suggested_next": null
+  },
+  "6": {
+    "tried": 2,
+    "successes": 0,
+    "last_k_patterns": [
+      "❌ WRONG SUBMIT: Merlin",
+      "❌ WRONG SUBMIT: BANANB"
+    ],
+    "do_not_try": [
+      "Merlin",
+      "BANANB"
+    ],
+    "suggested_next": null
+  }
+}
